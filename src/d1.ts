@@ -15,8 +15,10 @@ export async function initDB(db: D1Database): Promise<D1Result<unknown>[]> {
             lon REAL, 
             lat REAL, 
 			address TEXT,
+			static_duration INTEGER, -- duration to next place at route_order + 1
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL, 
             updated_at TIMESTAMP,
+			route_order INTEGER,
 			route_group INTEGER -- 0 edsa_sb, 1 edsa_nb
         );`);
 	const places_index = db.prepare(`CREATE UNIQUE INDEX IF NOT EXISTS places_uq_coordinates ON places(lon, lat);`);
