@@ -18,6 +18,7 @@ import {
 	queryRouteGroup,
 	saveEstimate,
 	saveGroupEstimate,
+	saveStaticDuration,
 	summarizeGroupEstimates,
 } from './d1';
 import { fetchDuration } from './googleRoute';
@@ -41,6 +42,7 @@ export interface Place {
 	latitude: number;
 	route_group: number;
 	route_order: number;
+	static_duration: number;
 }
 
 export interface Route {
@@ -219,6 +221,9 @@ async function estimateIntermediate(env: Env, groups: number[]) {
 		const origin = places[i];
 		const destination = places[i + 1];
 		// console.log(origin, destination);
+		if (!places[0].static_duration) {
+			promises.push(saveStaticDuration(env.DB, places[0].place_id, places[0].static_duration));
+		}
 		if (origin.route_group != destination.route_group) {
 			// for roundtrips, do not save from one end to another
 			// In ddd, this should be in saveGroupEstimate func

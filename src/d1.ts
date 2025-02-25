@@ -65,6 +65,10 @@ export async function saveGroupEstimate(db: D1Database, origin_id: number, desti
 		.run();
 }
 
+export async function saveStaticDuration(db: D1Database, place_id: number, static_duration: number) {
+	return db.prepare(`UPDATE places SET static_duration=? WHERE place_id = ?;`).bind(place_id, static_duration).run();
+}
+
 export async function saveEstimate(db: D1Database, route_id: number, duration: number) {
 	return db
 		.prepare(
@@ -146,7 +150,7 @@ export async function queryRouteGroup(db: D1Database, group: number) {
 		.prepare(
 			`
 		SELECT
-			place_id, lon longitude, lat latitude, route_group
+			place_id, lon longitude, lat latitude, route_group, static_duration
 		FROM places 
 		WHERE route_group=?
 		ORDER BY route_order;`

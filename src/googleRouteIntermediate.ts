@@ -18,6 +18,7 @@ interface Route {
 
 interface Leg {
 	duration: string;
+	staticDuration: string; // duration if there's no traffic
 }
 
 interface Waypoint {
@@ -42,7 +43,7 @@ export async function fetchIntermediateDuration(key: string, coordinates: Coordi
 		headers: {
 			'content-type': 'application/json; application/json',
 			'X-Goog-Api-Key': key,
-			'X-Goog-FieldMask': 'routes.legs.duration',
+			'X-Goog-FieldMask': 'routes.legs.duration,routes.legs.staticDuration',
 
 			// 'routes.legs.duration,routes.polyline.encodedPolyline,routes.legs.polyline.encodedPolyline,routes.legs.travelAdvisory.speedReadingIntervals,routes.travelAdvisory.speedReadingIntervals', // TODO: get leg start and end coordinates
 		},
@@ -59,6 +60,7 @@ export async function fetchIntermediateDuration(key: string, coordinates: Coordi
 		return {
 			// start: { longitude: 0, latitude: 0 },
 			// end: { longitude: 0, latitude: 0 },
+			staticDuration: parseInt(leg.staticDuration),
 			duration: parseInt(leg.duration),
 		};
 	});
