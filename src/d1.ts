@@ -66,7 +66,7 @@ export async function saveGroupEstimate(db: D1Database, origin_id: number, desti
 }
 
 export async function saveStaticDuration(db: D1Database, place_id: number, static_duration: number) {
-	return db.prepare(`UPDATE places SET static_duration=? WHERE place_id = ?;`).bind(place_id, static_duration).run();
+	return db.prepare(`UPDATE places SET static_duration=? WHERE place_id = ?;`).bind(static_duration, place_id).run();
 }
 
 export async function saveEstimate(db: D1Database, route_id: number, duration: number) {

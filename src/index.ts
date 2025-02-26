@@ -56,6 +56,7 @@ export interface IntermediateDuration {
 	// start: Coordinate;
 	// end: Coordinate;
 	duration: number;
+	staticDuration: number;
 }
 
 export default {
@@ -113,7 +114,6 @@ async function handleJSONRequest(url: URL, env: Env) {
 	}
 	if (url.pathname == '/api/estimates/historical') {
 		const params = url.searchParams;
-		console.log(params);
 		const origin = parseInt(params.get('origin') ?? '');
 		if (isNaN(origin)) {
 			return { error: 'origin must be a number' };
@@ -221,8 +221,8 @@ async function estimateIntermediate(env: Env, groups: number[]) {
 		const origin = places[i];
 		const destination = places[i + 1];
 		// console.log(origin, destination);
-		if (!places[0].static_duration) {
-			promises.push(saveStaticDuration(env.DB, places[0].place_id, places[0].static_duration));
+		if (!origin.static_duration) {
+			promises.push(saveStaticDuration(env.DB, origin.place_id, durations[i].staticDuration));
 		}
 		if (origin.route_group != destination.route_group) {
 			// for roundtrips, do not save from one end to another
