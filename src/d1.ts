@@ -183,6 +183,33 @@ export async function summarizeGroupEstimates(db: D1Database) {
 }
 
 /**
+ * list origin address, destination address, route name, static_duration between the two
+ * @param db
+ * @param origin
+ * @param destination
+ * @returns
+ */
+export async function detailRoute(db: D1Database, origin: number, destination: number) {
+	return db
+		.prepare(
+			`WITH origin AS (SELECT place_id, address, route_group, route_order FROM places WHERE place_id=?),
+			destination AS (SELECT place_id, address, route_order FROM places WHERE place_id=?)
+			SELECT 
+				o.address origin, d.address destination, sum(p.static_duration) static_duration, r.name route
+			FROM origin o
+			CROSS JOIN destination d
+			JOIN places p 
+				ON p.route_order >= o.route_order 
+			AND p.route_order < d.route_order 
+			AND p.route_group = o.route_group
+			JOIN route_groups r 
+				ON r.route_group_id = o.route_group;`
+		)
+		.bind(origin, destination)
+		.all();
+}
+
+/**
  * list estimates today, yesterday, last week
  * estimates of the day are +/- 1hr of the current time
  * @param db

@@ -13,6 +13,7 @@
 
 import {
 	detailGroupEstimates,
+	detailRoute,
 	listPlaces,
 	listRoutes,
 	queryRouteGroup,
@@ -132,6 +133,19 @@ async function handleJSONRequest(url: URL, env: Env) {
 	if (url.pathname == '/api/places') {
 		const places = await listPlaces(env.DB);
 		return { places: places };
+	}
+	if (url.pathname == '/api/route') {
+		const params = url.searchParams;
+		const origin = parseInt(params.get('origin') ?? '');
+		if (isNaN(origin)) {
+			return { error: 'origin must be a number' };
+		}
+		const destination = parseInt(params.get('destination') ?? '');
+		if (isNaN(destination)) {
+			return { error: 'destination must be a number' };
+		}
+		const route = await detailRoute(env.DB, origin, destination);
+		return route.results;
 	}
 
 	return { error: 404 };
