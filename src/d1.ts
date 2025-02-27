@@ -109,7 +109,7 @@ export async function queryRoute(db: D1Database, route_id: number): Promise<Rout
 export async function listPlaces(db: D1Database): Promise<Place[]> {
 	const results = await db
 		.prepare(
-			`SELECT place_id, address, lon longitude, lat latitude, route_group, route_order
+			`SELECT place_id, address, lon longitude, lat latitude, route_group, route_order, static_duration
 		FROM places 
 		WHERE route_group IS NOT NULL --those without route group are private
 		ORDER BY route_group, route_order;`
