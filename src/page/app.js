@@ -32,9 +32,21 @@ function groupEstimates(places, estimates) {
 				if (!groups.hasOwnProperty(group)) {
 					groups[group] = { name: ROUTE_GROUPS[group], cells: [], last_check: moment.utc(estimate.created_at).fromNow() };
 				}
-				const duration = moment.duration(estimate.duration, 'seconds').humanize();
+				let duration = moment.duration(estimate.duration, 'seconds').humanize();
+				let color = 'green';
+				if (place.static_duration) {
+					const dif = estimate.duration - place.static_duration;
+					// TODO: make color gradient from green to yellow to red depending on dif
+					if (dif > 60) {
+						color = 'yellow';
+						duration += ` (+${moment.duration(dif, 'seconds').humanize()})`;
+						if (dif > 300) {
+							color = 'red';
+						}
+					}
+				}
 				groups[group].cells.push([
-					duration,
+					{ text: duration, color: color },
 					{ id: place.place_id, group: place.route_group, name: place.address, route_order: place.route_order },
 				]);
 				break;
@@ -97,7 +109,8 @@ function createTable(groups) {
 						cell.style = 'border: none';
 					} else {
 						cell.classList.add('offset');
-						cell.textContent = rowData[i];
+						cell.textContent = rowData[i].text;
+						cell.style = `color:black; background-color: ${rowData[i].color}`;
 					}
 				} else {
 					const place = rowData[i];
