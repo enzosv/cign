@@ -177,7 +177,5 @@ function cellClick(place) {
 		return;
 	}
 	// redirect
-	window.location.href = `/detail?origin=${origin.id}&destination=${place.id}&group=${place.group}&title=${origin.name} to ${
-		place.name
-	} via ${ROUTE_GROUPS[place.group]}`;
+	window.location.href = `/detail?origin=${origin.id}&destination=${place.id}`;
 }
