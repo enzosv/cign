@@ -1,9 +1,13 @@
-async function fetchData(origin, destination, group) {
+async function fetchRoute(origin, destination) {
+	const response = await fetch(`/api/route?origin=${origin}&destination=${destination}`);
+	return response.json();
+}
+async function fetchEstimates(origin, destination, group) {
 	const response = await fetch(`/api/estimates/historical?origin=${origin}&destination=${destination}&group=${group}`);
 	return response.json();
 	// return {
 	// 	estimates: [
-	// 		{ duration: 539, created_at: '2025-02-20 16:00' },
+	// 		{ duration: 1539, created_at: '2025-02-20 16:00' },
 	// 		{ duration: 546, created_at: '2025-02-20 15:40' },
 	// 		{ duration: 498, created_at: '2025-02-19 17:00' },
 	// 		{ duration: 501, created_at: '2025-02-19 16:45' },
@@ -146,12 +150,31 @@ async function main() {
 	const urlParams = new URLSearchParams(queryString);
 	// TODO: fetch title and group from origin, destination
 
-	document.getElementById('title').innerHTML = urlParams.get('title');
+	const route = await fetchRoute(urlParams.get('origin'), urlParams.get('destination'));
 
-	const data = await fetchData(urlParams.get('origin'), urlParams.get('destination'), urlParams.get('group'));
+	document.getElementById('title').innerHTML = `${route.origin} to ${route.destination} via ${route.name}`;
+
+	const data = await fetchEstimates(urlParams.get('origin'), urlParams.get('destination'), route.route_group);
+
+	moment.updateLocale('en', {
+		relativeTime: {
+			future: 'in %s',
+			past: '%s ago',
+			s: '1 min',
+			m: '1 min',
+			mm: '%d mins',
+			h: '1 hr',
+			hh: '%d hrs',
+		},
+	});
+
 	const latest = data.estimates[data.estimates.length - 1];
-	const duration = Math.round(moment.duration(latest.duration, 'seconds').asMinutes());
-	document.getElementById('summary').innerHTML = `ETA: ${duration} mins <small>(${moment.utc(latest.created_at).fromNow()})</small>`;
+	let duration = moment.duration(latest.duration, 'seconds').humanize();
+	const dif = latest.duration - route.static_duration;
+	if (dif > 60) {
+		duration += ` (+${moment.duration(dif, 'seconds').humanize()})`;
+	}
+	document.getElementById('summary').innerHTML = `ETA: ${duration} <small>(${moment.utc(latest.created_at).fromNow()})</small>`;
 	const [groupedData, timeKeys] = groupEstimatesByTime(data);
 
 	// const [groupedData, timeKeys] = groupDataByDate(data);
