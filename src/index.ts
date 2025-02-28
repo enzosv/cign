@@ -145,7 +145,7 @@ async function handleJSONRequest(url: URL, env: Env) {
 			return { error: 'destination must be a number' };
 		}
 		const route = await detailRoute(env.DB, origin, destination);
-		return route.results;
+		return route;
 	}
 
 	return { error: 404 };
