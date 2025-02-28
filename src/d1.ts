@@ -195,7 +195,7 @@ export async function detailRoute(db: D1Database, origin: number, destination: n
 			`WITH origin AS (SELECT place_id, address, route_group, route_order FROM places WHERE place_id=?),
 			destination AS (SELECT place_id, address, route_order FROM places WHERE place_id=?)
 			SELECT 
-				o.address origin, d.address destination, sum(p.static_duration) static_duration, r.name route
+				o.address origin, d.address destination, sum(p.static_duration) static_duration, r.name, o.route_group
 			FROM origin o
 			CROSS JOIN destination d
 			JOIN places p 
@@ -206,7 +206,7 @@ export async function detailRoute(db: D1Database, origin: number, destination: n
 				ON r.route_group_id = o.route_group;`
 		)
 		.bind(origin, destination)
-		.all();
+		.first();
 }
 
 /**
