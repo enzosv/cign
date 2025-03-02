@@ -1,0 +1,84 @@
+.road {
+    flex: 1;
+    position: relative;
+    margin: -2px auto;
+    z-index: -1;
+    min-height: 50px;
+    display: flex;
+    justify-content: center;
+    width: 64px;
+}
+
+.time-bubble {
+    background-color: #2e303e58;
+    /* border: 1px solid #ddd; */
+    border-radius: 12px;
+    padding: 4px 8px;
+    font-size: 11px;
+    position: absolute;
+    white-space: nowrap;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 3;
+    /* transform: translateX(75%); */
+    top: 25%;
+}
+
+.station {
+    background-color: #4A4E69;
+    border-radius: 12px;
+    padding: 4px 8px;
+    z-index: 2;
+    max-width: 128px;
+    margin: auto;
+    
+}
+
+p {
+    text-align: center;
+    margin: 5px;
+}
+
+.station1 {
+    background-color: #4A4E69;
+    border-radius: 12px;
+    padding: 4px 8px;
+    z-index: 2;
+    max-width: 128px;
+    margin: auto;
+
+    display: flex;
+    word-wrap: break-word;
+    align-items: center; /* Vertical centering */
+    justify-content: center; /* Horizontal centering (optional) */
+    text-align: center; /* Ensure text stays centered */
+    white-space: normal; /* Allow text to wrap */
+    word-wrap: break-word; /* Ensures long words break */
+    overflow-wrap: break-word;
+    height: 100%; /* Ensure it takes full height of parent */
+    min-height: 48px;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+}
+sub,small {
+    color: #999;
+    font-size: 12px;
+    text-align: center;
+}
+h2 {
+    text-align: center;
+}
+
+/* span {
+    display: block;
+    margin-top: 4px;
+    color: #999;
+    font-size: 12px;
+} */
