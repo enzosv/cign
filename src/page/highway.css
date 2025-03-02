@@ -20,43 +20,16 @@
     color: #ffffff;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     z-index: 3;
-    /* transform: translateX(75%); */
     top: 25%;
 }
 
 .station {
-    background-color: #4A4E69;
+    background-color: rgb(46,48,61);
     border-radius: 12px;
     padding: 4px 8px;
     z-index: 2;
     max-width: 128px;
     margin: auto;
-    
-}
-
-p {
-    text-align: center;
-    margin: 5px;
-}
-
-.station1 {
-    background-color: #4A4E69;
-    border-radius: 12px;
-    padding: 4px 8px;
-    z-index: 2;
-    max-width: 128px;
-    margin: auto;
-
-    display: flex;
-    word-wrap: break-word;
-    align-items: center; /* Vertical centering */
-    justify-content: center; /* Horizontal centering (optional) */
-    text-align: center; /* Ensure text stays centered */
-    white-space: normal; /* Allow text to wrap */
-    word-wrap: break-word; /* Ensures long words break */
-    overflow-wrap: break-word;
-    height: 100%; /* Ensure it takes full height of parent */
-    min-height: 48px;
 }
 
 body {
@@ -71,6 +44,8 @@ sub,small {
     color: #999;
     font-size: 12px;
     text-align: center;
+    display: block;
+    margin-top: 0;
 }
 h2 {
     text-align: center;

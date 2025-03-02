@@ -17,8 +17,6 @@ async function main() {
 		},
 	});
 	const groups = groupEstimates(groupedPlaces, estimates);
-	// console.log(groups);
-
 	createTable(groups);
 }
 
@@ -54,7 +52,7 @@ function groupEstimates(places, estimates) {
 				if (!groups.hasOwnProperty(group)) {
 					groups[group] = { name: ROUTE_GROUPS[group], cells: [], last_check: moment.utc(estimate.created_at).fromNow() };
 				}
-				let duration = moment.duration(estimate.duration, 'seconds').humanize();
+				const duration = moment.duration(estimate.duration, 'seconds').humanize();
 				let color = '#47A025';
 				if (place.static_duration) {
 					const dif = estimate.duration - place.static_duration;
@@ -69,9 +67,7 @@ function groupEstimates(places, estimates) {
 				}
 				groups[group].cells.push({
 					id: place.place_id,
-					group: place.route_group,
 					name: place.address,
-					route_order: place.route_order,
 					duration: duration,
 					color: color,
 				});
@@ -103,7 +99,6 @@ function createTable(groups) {
 		title.style = 'margin-bottom: 2px';
 		title.textContent = group.name;
 		const subtitle = document.createElement('small');
-		subtitle.style = 'display: block; margin-top: 0;';
 		subtitle.textContent = 'Updated ' + group.last_check;
 
 		titleContainer.appendChild(title);
@@ -112,10 +107,10 @@ function createTable(groups) {
 		container.appendChild(titleContainer);
 
 		data.forEach((rowData) => {
-			// console.log(rowData);
 			const station = document.createElement('div');
 			station.classList.add('station');
 			const label = document.createElement('p');
+			label.style = 'text-align: center; margin: 5px;';
 			label.textContent = rowData.name;
 
 			station.appendChild(label);
@@ -126,7 +121,6 @@ function createTable(groups) {
 			} else if (origin && rowData.group == origin.group && rowData.route_order > origin.route_order) {
 				sub.innerHTML = 'Set as destination';
 			}
-			// sub.style = 'float: right;';
 			station.onclick = function () {
 				cellClick(rowData);
 				createTable(groups);
@@ -158,7 +152,6 @@ function cellClick(place) {
 		origin = null;
 		return;
 	}
-	// console.log(origin, place);
 	// redirect
 	window.location.href = `/detail?origin=${origin.id}&destination=${place.id}`;
 }
