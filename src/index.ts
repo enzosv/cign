@@ -63,7 +63,7 @@ export interface IntermediateDuration {
 export default {
 	async scheduled(event: any, env: Env, ctx: ExecutionContext) {
 		await Promise.all([
-			estimateRoutes(env),
+			// estimateRoutes(env),
 			estimateIntermediate(env, [0]), //edsa sb
 			estimateIntermediate(env, [1]), // edsa nb
 			estimateIntermediate(env, [2, 3]), // ortigas eb,wb
