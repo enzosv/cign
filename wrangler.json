@@ -22,7 +22,36 @@
 		}
 	],
 	"triggers": {
-		"crons": ["*/15 22,23,0-11 * * *", "*/20 12-15 * * *", "*/45 16-21 * * *"]
+		/**"_cron_notes": [
+			"PHT every 25 minutes from 6am-7am Mon-Fri.",
+			"PHT every 15 minutes from 7am-8am Mon-Fri.",
+			"PHT every 15 minutes from 8am-10am Mon-Fri.",
+			"PHT every 25 minutes from 10am-3pm Mon-Fri.",
+			"PHT every 15 minutes from 4pm-6pm Mon-Fri.",
+			"PHT every 30 minutes from 7pm-8pm Mon-Fri.",
+			"PHT every 40 minutes from 8pm-10pm Mon-Fri.",
+			"PHT every hour from 10pm-5am Mon-Fri.",
+			"PHT every 30 minutes from 6am-8am Sat-Sun.",
+			"PHT every 30 minutes from 8am-3pm Sat-Sun.",
+			"PHT every 30 minutes from 4pm-7pm Sat-Sun.",
+			"PHT every 40 minutes from 8pm-10pm Sat-Sun.",
+			"PHT every hour from 10pm-5am Sun-Mon."
+		],**/
+		"crons": [
+			"0 0,25,50 22 * * 0-4",
+			"0 0,15,30,45 23 * * 0-4",
+			"0 0,15,30,45 0,1 * * 1-5",
+			"0 0,25,50 2,3,4,5,6,7 * * 1-5",
+			"0 0,15,30,45 8,9,10 * * 1-5",
+			"0 0,30 11 * * 1-5",
+			"0 0,40 12,13 * * 1-5",
+			"0 0 14-21 * * 1-5",
+			"0 0,30 22,23 * * 5,6",
+			"0 0,30 0,1,2,3,4,5,6,7 * * 6,0",
+			"0 0,30 8,9,10,11 * * 6,0",
+			"0 0,40 12,13 * * 6,0",
+			"0 0 14-21 * * 6,0"
+		]
 	},
 	/**
 	 * Smart Placement
